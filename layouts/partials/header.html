@@ -1,0 +1,21 @@
+{{- $logo := resources.Get "img/technative-logo.svg" -}}
+<header class="site-header">
+  <a href="{{ site.Params.org.site }}" aria-label="TechNative home">
+    <img class="logo" src="{{ $logo.RelPermalink }}" alt="TechNative" width="150" height="30">
+  </a>
+  <span class="site-name">Open Source</span>
+
+  <nav aria-label="Categories">
+    {{- range .cats }}
+    <a href="#{{ .key }}">{{ .title }}</a>
+    {{- end }}
+  </nav>
+
+  <div class="header-actions">
+    <button type="button" class="btn icon-btn" id="theme-toggle"
+            aria-pressed="false" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <span aria-hidden="true">◐</span>
+    </button>
+    <a class="btn" href="{{ site.Params.org.github }}" rel="noopener">View on GitHub ↗</a>
+  </div>
+</header>

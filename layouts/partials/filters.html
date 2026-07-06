@@ -1,0 +1,27 @@
+{{/* Sticky filter bar. Markup only — behaviour is added by client-interactivity.
+     With JS off these controls are inert and the full grid remains visible. */}}
+<div class="filter-bar" role="search">
+  <label class="visually-hidden" for="q">Search projects</label>
+  <input type="search" id="q" placeholder="Search name, description, topics…" autocomplete="off">
+
+  <div class="chips" id="category-chips" role="group" aria-label="Filter by category">
+    {{- range .cats }}
+    <button type="button" class="chip" data-category="{{ .key }}" aria-pressed="false">{{ .title }}</button>
+    {{- end }}
+  </div>
+
+  <label class="visually-hidden" for="lang">Language</label>
+  <select id="lang">
+    <option value="">All languages</option>
+    {{- range .langs }}
+    <option value="{{ . }}">{{ . }}</option>
+    {{- end }}
+  </select>
+
+  <label class="visually-hidden" for="sort">Sort</label>
+  <select id="sort">
+    <option value="stars">Most stars</option>
+    <option value="updated">Recently updated</option>
+    <option value="name">Name (A–Z)</option>
+  </select>
+</div>

@@ -1,0 +1,23 @@
+{{- $elastinix := "" -}}
+{{- range .cats }}{{ if eq .key "elastinix" }}{{ $elastinix = . }}{{ end }}{{ end -}}
+{{- with $elastinix }}
+<section class="section" id="elastinix">
+  <div class="container">
+    <div class="spotlight">
+      <h2>ElastiNix</h2>
+      <!-- NEEDS PIM APPROVAL: ElastiNix spotlight paragraph. Factual placeholder. -->
+      <p class="lead" style="max-width:60ch">
+        NixOS running smoothly on AWS, plus battery-included, self-hostable office
+        apps. The flagship of our open-source work.
+      </p>
+      <div class="mini-cards">
+        {{- range .projects }}
+        <a class="mini-card" href="{{ .html_url }}" rel="noopener">
+          {{ .name }}{{ with .stargazers_count }} · ★{{ . }}{{ end }}
+        </a>
+        {{- end }}
+      </div>
+    </div>
+  </div>
+</section>
+{{- end }}

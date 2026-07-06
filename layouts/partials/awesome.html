@@ -1,0 +1,29 @@
+{{- $awesome := "" -}}
+{{- range .cats }}{{ if eq .key "awesome-lists" }}{{ $awesome = . }}{{ end }}{{ end -}}
+{{- with $awesome }}
+<section class="section awesome" id="awesome-lists">
+  <div class="container">
+    <h2 class="section-title">Awesome Lists</h2>
+    <div class="grid">
+      {{- range .projects }}
+      {{- $desc := .blurb | default .description | default "" -}}
+      <article class="card"
+               tabindex="0"
+               aria-label="{{ .name }} — {{ .stargazers_count }} stars"
+               data-name="{{ .name | lower }}"
+               data-desc="{{ $desc | lower }}"
+               data-topics="{{ delimit .topics " " | lower }}"
+               data-lang="{{ .language }}"
+               data-stars="{{ .stargazers_count }}"
+               data-category="awesome-lists">
+        <h3><a href="{{ .html_url }}" rel="noopener">{{ .name }}</a></h3>
+        {{- with $desc }}<p class="desc">{{ . }}</p>{{ end }}
+        <div class="meta">
+          <span class="stars" aria-label="{{ .stargazers_count }} stars">★ {{ .stargazers_count }}</span>
+        </div>
+      </article>
+      {{- end }}
+    </div>
+  </div>
+</section>
+{{- end }}

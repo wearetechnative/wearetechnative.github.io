@@ -1,12 +1,44 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 {{ partial "head.html" . }}
 </head>
 <body>
-  <main class="container section">
-    <h1>TechNative Open Source</h1>
-    <p class="empty-note">Scaffold + data pipeline in place. The full landing page is rendered by the landing-page-ui epic.</p>
+  {{/* Merge once; keep only non-empty categories; compute totals + language set. */}}
+  {{- $cats := partial "data/projects.html" . -}}
+  {{- $nonEmpty := slice -}}
+  {{- $count := 0 -}}
+  {{- $langs := slice -}}
+  {{- range $cats -}}
+    {{- if gt (len .projects) 0 -}}
+      {{- $nonEmpty = $nonEmpty | append . -}}
+      {{- $count = add $count (len .projects) -}}
+      {{- range .projects }}{{ with .language }}{{ $langs = $langs | append . }}{{ end }}{{ end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $langs = $langs | uniq | sort -}}
+  {{- $ctx := dict "cats" $nonEmpty "count" $count "langs" $langs -}}
+
+  {{ partial "header.html" $ctx }}
+
+  <main id="top">
+    {{ partial "hero.html" $ctx }}
+    {{ partial "elastinix-spotlight.html" $ctx }}
+
+    <div class="container">
+      {{ partial "filters.html" $ctx }}
+      {{ partial "project-grid.html" $ctx }}
+    </div>
+
+    {{ partial "awesome.html" $ctx }}
   </main>
+
+  {{ partial "footer.html" $ctx }}
+
+  {{/* Client behaviour (filtering, dark toggle) is added by the client-interactivity epic. */}}
+  {{- with resources.Get "js/filter.js" -}}
+    {{- $js := . | minify | fingerprint -}}
+    <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+  {{- end -}}
 </body>
 </html>

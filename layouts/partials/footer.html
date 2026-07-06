@@ -1,0 +1,23 @@
+{{- $footerLogo := resources.Get "img/technative-logo-footer.png" -}}
+<footer class="site-footer">
+  <div class="container">
+    <img class="logo" src="{{ $footerLogo.RelPermalink }}" alt="TechNative" width="130" height="29">
+    <div class="cols">
+      <p style="max-width:42ch;margin:0">
+        <!-- NEEDS PIM APPROVAL: "why we open-source" blurb. Factual placeholder. -->
+        We build in the open — the tooling and modules our own cloud engineers
+        rely on, shared under Apache-2.0.
+      </p>
+      <nav aria-label="Footer links">
+        <a href="{{ site.Params.org.github }}" rel="noopener">GitHub</a> ·
+        <a href="{{ site.Params.org.site }}" rel="noopener">technative.eu</a> ·
+        <a href="{{ site.Params.org.linkedin }}" rel="noopener">LinkedIn</a>
+        <!-- NEEDS PIM APPROVAL: enable X/Twitter link?  ·
+        <a href="https://twitter.com/TechNativeBV" rel="noopener">X / Twitter</a> -->
+      </nav>
+    </div>
+    <p class="fine">
+      © {{ now.Year }} {{ site.Params.org.name }}. Licensed under Apache-2.0.
+    </p>
+  </div>
+</footer>

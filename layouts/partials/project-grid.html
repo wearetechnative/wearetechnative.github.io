@@ -1,0 +1,45 @@
+{{/* Project grid: one section per non-empty category, in display order.
+     Cards carry data-* attributes for client-side filtering; with JS off they
+     are inert and the full grid renders. Awesome-lists is rendered separately
+     in its own band, so it is skipped here. */}}
+{{- range .cats }}
+{{- if ne .key "awesome-lists" }}
+<section class="category" id="{{ .key }}" data-category="{{ .key }}">
+  <h2 class="section-title">{{ .title }}</h2>
+  <div class="grid">
+    {{- range .projects }}
+    {{- $desc := .blurb | default .description | default "" -}}
+    {{- $pushed := "" -}}
+    {{- with .pushed_at }}{{ $pushed = (time.AsTime .) }}{{ end -}}
+    <article class="card"
+             tabindex="0"
+             aria-label="{{ .name }}{{ with .language }} — {{ . }}{{ end }} — {{ .stargazers_count }} stars"
+             data-name="{{ .name | lower }}"
+             data-desc="{{ $desc | lower }}"
+             data-topics="{{ delimit .topics " " | lower }}"
+             data-lang="{{ .language }}"
+             data-stars="{{ .stargazers_count }}"
+             data-pushed="{{ with $pushed }}{{ .Unix }}{{ else }}0{{ end }}"
+             data-category="{{ .category }}">
+      <h3><a href="{{ .html_url }}" rel="noopener">{{ .name }}</a></h3>
+      {{- with $desc }}<p class="desc">{{ . }}</p>{{ end }}
+      <div class="meta">
+        {{- with .language }}<span class="lang"><span class="lang-dot" aria-hidden="true"></span>{{ . }}</span>{{ end }}
+        <span class="stars" aria-label="{{ .stargazers_count }} stars">★ {{ .stargazers_count }}</span>
+        {{- with $pushed }}
+        <span class="updated" title="Last pushed {{ .Format "2 Jan 2006" }}">
+          updated {{ partial "func/reltime.html" . }}
+        </span>
+        {{- end }}
+      </div>
+      {{- with .topics }}
+      <div class="topics">
+        {{- range first 5 . }}<span class="topic">{{ . }}</span>{{ end }}
+      </div>
+      {{- end }}
+    </article>
+    {{- end }}
+  </div>
+</section>
+{{- end }}
+{{- end }}

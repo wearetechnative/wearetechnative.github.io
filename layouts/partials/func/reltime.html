@@ -1,0 +1,19 @@
+{{- /* Render a human relative time (e.g. "3 weeks ago") for a time value.
+       Computed at build time; the daily CI cron keeps it fresh. */ -}}
+{{- $then := time.AsTime . -}}
+{{- $secs := int (sub now.Unix $then.Unix) -}}
+{{- $out := "just now" -}}
+{{- if ge $secs 0 -}}
+  {{- if lt $secs 3600 -}}
+    {{- $m := div $secs 60 -}}{{- $out = printf "%d minute%s ago" $m (cond (eq $m 1) "" "s") -}}
+  {{- else if lt $secs 86400 -}}
+    {{- $h := div $secs 3600 -}}{{- $out = printf "%d hour%s ago" $h (cond (eq $h 1) "" "s") -}}
+  {{- else if lt $secs 2592000 -}}
+    {{- $d := div $secs 86400 -}}{{- $out = printf "%d day%s ago" $d (cond (eq $d 1) "" "s") -}}
+  {{- else if lt $secs 31536000 -}}
+    {{- $mo := div $secs 2592000 -}}{{- $out = printf "%d month%s ago" $mo (cond (eq $mo 1) "" "s") -}}
+  {{- else -}}
+    {{- $y := div $secs 31536000 -}}{{- $out = printf "%d year%s ago" $y (cond (eq $y 1) "" "s") -}}
+  {{- end -}}
+{{- end -}}
+{{- $out -}}
