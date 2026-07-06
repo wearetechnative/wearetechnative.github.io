@@ -34,11 +34,25 @@ nix develop            # enter the dev shell (or: direnv allow, with .envrc)
 just dev               # live preview at http://localhost:1313
 just build             # build public/ (minified)
 just fetch             # refresh data/repos.json from the GitHub API
-just verify            # nix flake check + link-check + Playwright e2e
+just verify            # build + nix flake check + link-check + Playwright e2e
+just test              # just the Playwright suite (needs `just build` first)
 ```
 
-Lighthouse budget (run against the built `public/`): Performance ≥ 90,
-Accessibility ≥ 95. _(Command added by the testing epic.)_
+The e2e suite lives in `tests/` (Playwright, pinned to the flake's browser
+version). Browsers come from the Nix flake — nothing is downloaded. `just verify`
+is exactly what CI runs before deploy.
+
+### Lighthouse budget
+
+Target on the built page: **Performance ≥ 90, Accessibility ≥ 95**. To measure,
+serve `public/` and run Lighthouse against it (Chromium from the flake):
+
+```sh
+just build
+nix develop -c node tests/serve.mjs &            # serves public/ on :4173
+nix develop -c npx --prefix tests lighthouse \
+    http://localhost:4173 --preset=desktop --view
+```
 
 ## Adding or curating a project
 

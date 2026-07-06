@@ -1,0 +1,12 @@
+{
+  "name": "wearetechnative-site-tests",
+  "private": true,
+  "description": "Playwright e2e smoke suite for the wearetechnative portfolio site.",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.59.1"
+  }
+}
