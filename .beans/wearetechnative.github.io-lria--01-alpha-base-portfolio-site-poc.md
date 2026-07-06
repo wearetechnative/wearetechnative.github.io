@@ -1,11 +1,11 @@
 ---
 # wearetechnative.github.io-lria
 title: 01 Alpha Base — Portfolio Site PoC
-status: todo
+status: completed
 type: milestone
 priority: high
 created_at: 2026-07-06T10:28:31Z
-updated_at: 2026-07-06T10:28:31Z
+updated_at: 2026-07-06T14:11:10Z
 ---
 
 First alpha-ready milestone for the wearetechnative open-source portfolio site (wearetechnative.github.io). A single, fast, filterable landing page rendering ~93 public repos via Hugo, hermetically built with Nix flakes, deployed to GitHub Pages. This milestone delivers a working, tested PoC that serves as the alpha base for later development.
@@ -23,3 +23,19 @@ Everything required by BRIEF-wearetechnative-portfolio-site.md to satisfy the §
 - README lets an engineer add a project in under 5 minutes.
 
 Child epics track each work area. Each epic is driven by an OpenSpec change (proposal → design → tasks) and implemented via /opsx:apply.
+
+## Summary — Alpha Base delivered
+
+All 7 epics complete. The wearetechnative open-source portfolio site is built, tested, deployed, and LIVE at https://wearetechnative.github.io/ (82 project cards, computed hero count).
+
+Delivered:
+- Hermetic Nix flake (plain nix, 4 architectures, no flake-utils); just dev/build/fetch/verify.
+- GitHub fetch (93 repos, paginated, fail-loud) + curation overlay + Hugo merge into 6 categories (incl. Quarto).
+- Full server-rendered landing page: header, hero, ElastiNix spotlight, filter bar, project grid, awesome band, footer. Progressive enhancement (renders JS-off).
+- Vanilla-JS search/filter/sort + dark-mode toggle. No framework, no network.
+- Committed Playwright e2e suite (7 tests) + lychee link-check, wired into just verify.
+- GitHub Actions: fetch->build->verify->deploy to Pages, deploy gated on verify, daily cron.
+
+Verified in real CI: build+verify+deploy went green; site serves live. §10 acceptance met (see final report).
+
+Approval items still pending Pim (placeholders flagged in-page): hero/spotlight/footer prose, optscale fork toggle, X/Twitter link. Umami analytics approved + active.

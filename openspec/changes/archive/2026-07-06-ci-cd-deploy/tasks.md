@@ -23,4 +23,4 @@
 
 - [x] 5.1 `yq`/parse the workflow: valid YAML; all `uses:` pinned to version tags.
 - [x] 5.2 Locally re-confirm `just verify` passes (the exact command CI runs).
-- [ ] 5.3 (post-merge, manual — after Pages source is set) trigger `workflow_dispatch` and confirm the run is green.
+- [x] 5.3 workflow_dispatch run went green and https://wearetechnative.github.io/ serves 82 cards live.

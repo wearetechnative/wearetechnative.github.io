@@ -26,6 +26,9 @@ jobs:
 
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v22
+        with:
+          # We don't use FlakeHub; opting out avoids a noisy (non-fatal) login warning.
+          determinate: false
 
       - name: Nix build cache
         uses: DeterminateSystems/magic-nix-cache-action@v14

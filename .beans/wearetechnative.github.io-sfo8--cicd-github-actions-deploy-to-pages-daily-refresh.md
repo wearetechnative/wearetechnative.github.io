@@ -1,11 +1,11 @@
 ---
 # wearetechnative.github.io-sfo8
 title: 'CI/CD: GitHub Actions deploy to Pages + daily refresh'
-status: in-progress
+status: completed
 type: epic
 priority: normal
 created_at: 2026-07-06T10:29:17Z
-updated_at: 2026-07-06T13:50:35Z
+updated_at: 2026-07-06T14:10:34Z
 parent: wearetechnative.github.io-lria
 blocked_by:
     - wearetechnative.github.io-poii
@@ -34,3 +34,10 @@ Verified locally: workflow is valid YAML, all 6 actions pinned to current majors
 
 ## Remaining (manual, post-merge)
 Task 5.3: after Pages source is set to "GitHub Actions" in repo Settings, trigger the workflow and confirm the run is green + site publishes. This needs the workflow on main + the one-time settings toggle, so it cannot be done in this session.
+
+
+## Manual step completed (this session)
+
+Pages source switched to "GitHub Actions" (build_type=workflow) via the API, and a workflow_dispatch run completed green (build+verify+deploy). The site is LIVE at https://wearetechnative.github.io/ serving 82 cards and the computed "82 public repositories" hero. Task 5.3 satisfied.
+
+Follow-up: quieted the non-fatal FlakeHub login warning by setting determinate:false on nix-installer-action.
