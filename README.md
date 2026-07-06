@@ -71,12 +71,21 @@ calls. Fonts and logos are self-hosted/vendored.
 
 ## Deployment
 
-GitHub Actions builds and deploys to GitHub Pages (org root), with a daily cron
-that refreshes the repo metadata. **One-time manual step:** in repo Settings →
-Pages, set the source to **GitHub Actions**. _(Workflow added by the CI/CD epic.)_
+`.github/workflows/deploy.yml` builds and deploys to GitHub Pages (org root) on
+every push to `main`, on manual dispatch, and daily at 06:00 UTC (a cron that
+refreshes the repo metadata without a push). The pipeline is **fetch → build →
+verify → deploy**, and deploy only runs if `just verify` (flake check + link check
++ Playwright e2e) passes.
+
+**One-time manual step (cannot be scripted):** in repo **Settings → Pages →
+Build and deployment → Source**, choose **GitHub Actions**. Until this is set, the
+workflow runs green but nothing publishes. After it's set, the site goes live at
+https://wearetechnative.github.io/ on the next run (or trigger one from the
+Actions tab → "Deploy to GitHub Pages" → Run workflow).
 
 <!-- Custom domain (e.g. opensource.technative.eu) is deferred: it would be a
-     CNAME file + one DNS record. Out of scope for the PoC — build nothing. -->
+     CNAME file (static/CNAME) + one DNS record. Out of scope for the PoC —
+     build nothing. -->
 
 ## Project tracking
 

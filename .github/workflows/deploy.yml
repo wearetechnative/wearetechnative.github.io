@@ -1,0 +1,64 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Daily refresh so the repo grid stays current without a push.
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Serialise Pages deployments; a newer run supersedes an in-flight one.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v22
+
+      - name: Nix build cache
+        uses: DeterminateSystems/magic-nix-cache-action@v14
+
+      # Snapshot the org's public repos into data/repos.json (build-time only).
+      - name: Fetch repo data
+        run: nix develop -c scripts/fetch-repos.sh
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      # Build + verify in one step so deploy is gated on verification:
+      # `just verify` builds public/, then runs flake check, link-check, and the
+      # Playwright e2e suite. Browsers come from the flake — no download.
+      - name: Build and verify
+        run: nix develop -c just verify
+        env:
+          CI: "true"
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
