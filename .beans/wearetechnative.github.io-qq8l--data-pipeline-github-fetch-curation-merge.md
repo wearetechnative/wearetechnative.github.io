@@ -1,11 +1,11 @@
 ---
 # wearetechnative.github.io-qq8l
 title: 'Data pipeline: GitHub fetch + curation merge'
-status: todo
+status: completed
 type: epic
 priority: high
 created_at: 2026-07-06T10:29:17Z
-updated_at: 2026-07-06T10:37:00Z
+updated_at: 2026-07-06T10:50:59Z
 parent: wearetechnative.github.io-lria
 blocked_by:
     - wearetechnative.github.io-j5rf
@@ -20,3 +20,13 @@ Build the flat-file data layer: fetch all ~93 public repos from the GitHub REST 
 - data/repos.json git-ignored; curation.yaml + flake.lock committed.
 
 OpenSpec change: data-pipeline
+
+## Summary of Changes
+
+Delivered the flat-file data pipeline (OpenSpec change data-pipeline, archived 2026-07-06).
+
+- scripts/fetch-repos.sh: curl+jq, paginated (per_page=100, follows Link rel=next), GITHUB_TOKEN auth with unauthenticated-fallback warning, atomic write, fails non-zero on API error or empty result. Verified: fetched 93 repos.
+- data/curation.yaml: committed overlay (defaults+excludes, first-match category_rules, per-repo overrides, elastinix_group). optscale include:false pending approval.
+- layouts/partials/data/projects.html: Hugo merge — exclusions with include opt-in, category rules, per-repo overrides, blurb fallback, sort featured→stars→pushed_at. Uses hugo.Data (no deprecation).
+
+Verified merge: elastinix featured+grouped (1); terraform-modules 48; tools 4; awesome-lists 4; other 25; optscale absent; this site + .github excluded; empty [] placeholder renders without crashing. 0 Hugo warnings.

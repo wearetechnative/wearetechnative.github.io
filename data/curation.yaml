@@ -1,0 +1,51 @@
+# Hand-maintained curation overlay — the human source of truth for how repos are
+# presented. Machine facts (name, description, stars, language, dates) always come
+# from the GitHub API; this file only controls visibility, category, and framing.
+# Keyed by repo name. Everything optional; presence overrides the auto layer.
+
+defaults:
+  exclude_forks: true
+  exclude_archived: true
+  exclude_templates: true
+  exclude_repos:            # infra/noise that shouldn't appear as "projects"
+    - wearetechnative.github.io   # this site
+    - .github
+    - homebrew-tap
+
+  # Category assignment rules, first match wins. Evaluated before per-repo overrides.
+  category_rules:
+    - match: { name_prefix: "terraform-" }
+      category: terraform-modules
+    - match: { topic: "elastinix" }
+      category: elastinix
+    - match: { name_in: [elastinix] }
+      category: elastinix
+    - match: { name_prefix: "awesome-" }
+      category: awesome-lists
+    - match: { topic_any: [cli, tui, cloud-engineering] }
+      category: tools
+    - match: { name_in: [bmc, race, jirasync, jiraticketcreate] }
+      category: tools
+    - match: { default: true }
+      category: other
+
+# Per-repo overrides (highest precedence).
+repos:
+  elastinix:
+    featured: true
+    category: elastinix
+    blurb: ""                 # leave "" to use the GitHub description
+  optscale:                   # a FORK we could deliberately surface
+    include: false            # NEEDS PIM APPROVAL to flip on (§9)
+    category: tools
+    blurb: ""
+  bmc: { featured: true }
+  race: {}
+  awesome-flake-parts: { featured: true }
+  awesome-finops: { featured: true }
+
+# ElastiNix product family — repos grouped under the spotlight.
+elastinix_group:
+  by_topic: "elastinix"       # preferred: tag member repos with topic `elastinix`
+  by_name:                    # fallback explicit membership
+    - elastinix

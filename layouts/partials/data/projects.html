@@ -1,0 +1,97 @@
+{{/*
+  Merge data/repos.json (auto) with data/curation.yaml (curated) into a
+  categorised, sorted list of project objects.
+
+  Returns a slice of category dicts:
+    { key, title, projects: [ project... ] }
+  Each project: name, full_name, html_url, description, blurb, homepage,
+  language, topics, stargazers_count, forks_count, pushed_at, featured, category.
+
+  Called as: {{ $data := partial "data/projects.html" . }}
+*/}}
+
+{{- $repos := hugo.Data.repos | default slice -}}
+{{- $cur := hugo.Data.curation | default dict -}}
+{{- $defaults := $cur.defaults | default dict -}}
+{{- $overrides := $cur.repos | default dict -}}
+{{- $rules := $defaults.category_rules | default slice -}}
+{{- $excludeRepos := $defaults.exclude_repos | default slice -}}
+
+{{/* Category display order + titles. Empty ones are dropped by the caller. */}}
+{{- $order := slice
+    (dict "key" "elastinix"         "title" "ElastiNix")
+    (dict "key" "terraform-modules" "title" "Terraform Modules")
+    (dict "key" "tools"             "title" "Cloud-Engineer Tools")
+    (dict "key" "awesome-lists"     "title" "Awesome Lists")
+    (dict "key" "other"             "title" "Other")
+-}}
+
+{{- $projects := slice -}}
+{{- range $repos -}}
+  {{- $r := . -}}
+  {{- $name := $r.name -}}
+  {{- $ov := index $overrides $name | default dict -}}
+
+  {{/* ---- inclusion ---- */}}
+  {{- $included := true -}}
+  {{- if in $excludeRepos $name }}{{ $included = false }}{{ end -}}
+  {{- if and $defaults.exclude_forks $r.fork }}{{ $included = false }}{{ end -}}
+  {{- if and $defaults.exclude_archived $r.archived }}{{ $included = false }}{{ end -}}
+  {{- if and $defaults.exclude_templates $r.is_template }}{{ $included = false }}{{ end -}}
+  {{/* per-repo include: overrides exclusions in both directions */}}
+  {{- if isset $ov "include" }}{{ $included = $ov.include }}{{ end -}}
+
+  {{- if $included -}}
+    {{- $topics := $r.topics | default slice -}}
+
+    {{/* ---- category via first-matching rule ---- */}}
+    {{- $cat := "other" -}}
+    {{- $matched := false -}}
+    {{- range $rules -}}
+      {{- if not $matched -}}
+        {{- $m := .match -}}
+        {{- $hit := false -}}
+        {{- if $m.default }}{{ $hit = true }}{{ end -}}
+        {{- with $m.name_prefix }}{{ if hasPrefix $name . }}{{ $hit = true }}{{ end }}{{ end -}}
+        {{- with $m.name_in }}{{ if in . $name }}{{ $hit = true }}{{ end }}{{ end -}}
+        {{- with $m.topic }}{{ if in $topics . }}{{ $hit = true }}{{ end }}{{ end -}}
+        {{- with $m.topic_any }}{{ range . }}{{ if in $topics . }}{{ $hit = true }}{{ end }}{{ end }}{{ end -}}
+        {{- if $hit }}{{ $cat = .category }}{{ $matched = true }}{{ end -}}
+      {{- end -}}
+    {{- end -}}
+    {{/* per-repo category override wins */}}
+    {{- with $ov.category }}{{ $cat = . }}{{ end -}}
+
+    {{/* ---- blurb falls back to GitHub description ---- */}}
+    {{- $blurb := $r.description -}}
+    {{- if and (isset $ov "blurb") (ne $ov.blurb "") }}{{ $blurb = $ov.blurb }}{{ end -}}
+
+    {{- $projects = $projects | append (dict
+        "name" $name
+        "full_name" $r.full_name
+        "html_url" $r.html_url
+        "description" $r.description
+        "blurb" $blurb
+        "homepage" $r.homepage
+        "language" $r.language
+        "topics" $topics
+        "stargazers_count" (int $r.stargazers_count)
+        "forks_count" (int $r.forks_count)
+        "pushed_at" $r.pushed_at
+        "featured" ($ov.featured | default false)
+        "category" $cat
+    ) -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* ---- group by category in display order, sort within each ---- */}}
+{{- $result := slice -}}
+{{- range $order -}}
+  {{- $key := .key -}}
+  {{- $inCat := where $projects "category" $key -}}
+  {{/* sort: featured desc, then stars desc, then pushed_at desc */}}
+  {{- $sorted := sort (sort (sort $inCat "pushed_at" "desc") "stargazers_count" "desc") "featured" "desc" -}}
+  {{- $result = $result | append (dict "key" $key "title" .title "projects" $sorted) -}}
+{{- end -}}
+
+{{- return $result -}}
