@@ -1,0 +1,29 @@
+# Brand tokens, social links, and feature flags.
+# Brand colours are grounded in technative.eu.
+
+[brand]
+  green     = "#86c33a"   # TechNative primary
+  green_700 = "#6ba52e"   # hover/active
+  ink       = "#1e2327"   # charcoal — dark base / body text
+  paper     = "#ffffff"
+  paper_soft = "#f7f8f5"
+  muted     = "#5b6570"
+
+[org]
+  name       = "TechNative B.V."
+  site       = "https://technative.eu"
+  github     = "https://github.com/wearetechnative"
+  linkedin   = "https://www.linkedin.com/company/technative-bv/"
+  # twitter  = "https://twitter.com/TechNativeBV"   # NEEDS PIM APPROVAL — disabled by default
+
+# Feature flags.
+[analytics]
+  # Approved runtime exception: Pim's self-hosted, cookieless Umami tracker.
+  # Set to false to disable the analytics snippet entirely.
+  umami        = true
+  umami_src    = "https://umami.pimsnel.com/script.js"
+  umami_id     = "a225a8cb-2309-4c1d-8f36-ec1c67e00e90"
+
+[features]
+  # Feature the optscale fork on the site? Default off (also gated in curation.yaml).
+  include_optscale = false

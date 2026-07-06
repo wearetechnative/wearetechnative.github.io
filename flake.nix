@@ -50,9 +50,28 @@
         };
       });
 
-      # `nix flake check` runs this on each system. The site build itself
-      # (packages.default) is added by the Hugo-scaffold epic; keep a formatter
-      # check here so the flake is valid and checkable from day one.
+      # The built site. Uses a placeholder data/repos.json so `nix build` is
+      # reproducible offline; the real grid comes from `just fetch` before
+      # `just build` (or the CI fetch step). See design.md for hugo-scaffold-brand.
+      packages = forAllSystems ({ pkgs, ... }: {
+        default = pkgs.stdenvNoCC.mkDerivation {
+          pname = "wearetechnative-portfolio-site";
+          version = "0.1.0";
+          src = ./.;
+          nativeBuildInputs = [ pkgs.hugo ];
+          buildPhase = ''
+            runHook preBuild
+            # Ensure a data file exists so Hugo builds without a network fetch.
+            [ -f data/repos.json ] || { mkdir -p data; echo '[]' > data/repos.json; }
+            hugo --minify --gc --destination "$out"
+            runHook postBuild
+          '';
+          installPhase = "true"; # hugo already wrote to $out
+          dontFixup = true;
+        };
+      });
+
+      # `nix flake check` runs this on each system.
       formatter = forAllSystems ({ pkgs, ... }: pkgs.nixpkgs-fmt);
     };
 }

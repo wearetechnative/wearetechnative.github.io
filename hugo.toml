@@ -1,0 +1,39 @@
+baseURL = "https://wearetechnative.github.io/"
+title = "TechNative Open Source"
+defaultContentLanguage = "en"
+enableRobotsTXT = true
+
+# Single-page site: no taxonomies, no per-page URLs.
+disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
+
+[params]
+  description = "Open-source tools and modules from TechNative — cloud engineering, Terraform, NixOS, and the awesome lists."
+
+# Category anchors (in approved display order). Empty categories are hidden at render time.
+[[menu.main]]
+  name = "ElastiNix"
+  url = "#elastinix"
+  weight = 10
+[[menu.main]]
+  name = "Terraform Modules"
+  url = "#terraform-modules"
+  weight = 20
+[[menu.main]]
+  name = "Tools"
+  url = "#tools"
+  weight = 30
+[[menu.main]]
+  name = "Awesome Lists"
+  url = "#awesome-lists"
+  weight = 40
+[[menu.main]]
+  name = "Other"
+  url = "#other"
+  weight = 50
+
+[build]
+  writeStats = false
+
+[minify]
+  disableXML = true
+  minifyOutput = true

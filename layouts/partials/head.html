@@ -1,0 +1,15 @@
+{{- $css := resources.Get "css/main.css" | minify | fingerprint -}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ .Title }}</title>
+<meta name="description" content="{{ site.Params.description }}">
+<link rel="icon" type="image/png" href="{{ (resources.Get "img/favicon.png").RelPermalink }}">
+<link rel="preload" href="/fonts/ibm-plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{- /* Approved runtime exception: self-hosted, cookieless Umami analytics. */ -}}
+{{- with site.Params.analytics }}
+{{- if .umami }}
+<script async src="{{ .umami_src }}" data-website-id="{{ .umami_id }}"></script>
+{{- end }}
+{{- end }}
