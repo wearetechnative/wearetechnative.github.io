@@ -54,6 +54,12 @@ machine-sourced facts.
 - **THEN** categories are assigned by first-matching rule, then overridden per
   repo where specified
 
+#### Scenario: quarto category rule
+
+- **WHEN** a repo has the `quarto` or `quarto-extension` topic, a `quarto-` name
+  prefix, or is `TeXnative` / `embed-sheet`
+- **THEN** it is assigned to the `quarto` category (before the `other` fallback)
+
 ### Requirement: Merge into project objects
 
 The project SHALL merge `repos.json` with `curation.yaml` into a single

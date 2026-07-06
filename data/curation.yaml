@@ -24,8 +24,14 @@ defaults:
       category: awesome-lists
     - match: { topic_any: [cli, tui, cloud-engineering] }
       category: tools
-    - match: { name_in: [bmc, race, jirasync, jiraticketcreate] }
+    - match: { name_in: [bmc, race, jirasync, jiraticketcreate, cloudia-aws-reader, cloudia-core, catstack] }
       category: tools
+    - match: { topic_any: [quarto, quarto-extension] }
+      category: quarto
+    - match: { name_prefix: "quarto-" }
+      category: quarto
+    - match: { name_in: [TeXnative, embed-sheet] }
+      category: quarto
     - match: { default: true }
       category: other
 

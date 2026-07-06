@@ -23,6 +23,10 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
   url = "#tools"
   weight = 30
 [[menu.main]]
+  name = "Quarto"
+  url = "#quarto"
+  weight = 35
+[[menu.main]]
   name = "Awesome Lists"
   url = "#awesome-lists"
   weight = 40
