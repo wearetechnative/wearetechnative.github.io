@@ -1,0 +1,25 @@
+# Hugo build output
+/public/
+/resources/_gen/
+.hugo_build.lock
+
+# Auto-generated data (GitHub API snapshot — regenerated at build time)
+/data/repos.json
+
+# Node / Playwright
+/node_modules/
+/tests/node_modules/
+/test-results/
+/playwright-report/
+/.playwright/
+
+# Nix
+result
+result-*
+
+# direnv
+/.direnv/
+
+# OS / editor cruft
+.DS_Store
+*.swp
