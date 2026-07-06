@@ -5,7 +5,7 @@ status: todo
 type: epic
 priority: high
 created_at: 2026-07-06T10:29:17Z
-updated_at: 2026-07-06T10:29:27Z
+updated_at: 2026-07-06T10:37:00Z
 parent: wearetechnative.github.io-lria
 blocked_by:
     - wearetechnative.github.io-njxs
@@ -25,4 +25,4 @@ Render the single landing page top-to-bottom per brief §6, server-side via Hugo
 - All approval-needed prose wrapped <!-- NEEDS PIM APPROVAL -->.
 - Categories displayed in approved order; empty ones hidden.
 
-OpenSpec change: 04-landing-page-ui
+OpenSpec change: landing-page-ui

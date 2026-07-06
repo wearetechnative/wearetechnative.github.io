@@ -5,7 +5,7 @@ status: todo
 type: epic
 priority: normal
 created_at: 2026-07-06T10:29:17Z
-updated_at: 2026-07-06T10:29:27Z
+updated_at: 2026-07-06T10:37:00Z
 parent: wearetechnative.github.io-lria
 blocked_by:
     - wearetechnative.github.io-poii
@@ -19,4 +19,4 @@ Ship it. Single workflow: fetch → build (Nix) → verify → deploy to GitHub 
 - Action versions pinned to current majors.
 - README documents one-time Pages='GitHub Actions' source toggle + CNAME stub note.
 
-OpenSpec change: 07-ci-cd-deploy
+OpenSpec change: ci-cd-deploy

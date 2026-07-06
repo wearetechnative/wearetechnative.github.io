@@ -5,7 +5,7 @@ status: todo
 type: epic
 priority: high
 created_at: 2026-07-06T10:29:17Z
-updated_at: 2026-07-06T10:29:27Z
+updated_at: 2026-07-06T10:37:00Z
 parent: wearetechnative.github.io-lria
 blocked_by:
     - wearetechnative.github.io-j5rf
@@ -19,4 +19,4 @@ Build the flat-file data layer: fetch all ~93 public repos from the GitHub REST 
 - Merge logic (Hugo partial or jq pre-step): exclude forks/archived/templates by default; include:true opt-in; category_rules first-match-wins; per-repo overrides; featured+blurb fallback to GitHub description; sort featured→stars→pushed_at.
 - data/repos.json git-ignored; curation.yaml + flake.lock committed.
 
-OpenSpec change: 02-data-pipeline
+OpenSpec change: data-pipeline

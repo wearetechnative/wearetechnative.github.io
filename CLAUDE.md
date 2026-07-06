@@ -63,7 +63,14 @@ Repeat until milestone `01`'s Definition of Done is met, then verify the full
 
 ## Spec-driven changes — OpenSpec
 
-- One OpenSpec change per epic. The change name is recorded in each epic bean.
+- One OpenSpec change per epic. The change name is recorded in each epic bean
+  (as `OpenSpec change: <name>`). Change scaffolds already exist for all epics:
+  `data-pipeline`, `hugo-scaffold-brand`, `landing-page-ui`,
+  `client-interactivity`, `testing-verification`, `ci-cd-deploy`. The first,
+  `nix-flake-devenv`, is done and archived — read it as the worked example.
+- **OpenSpec change names must start with a letter** (no `01-` numeric prefix —
+  that convention is for beans *milestones* only). Beans milestones start `01`,
+  `02`, …; OpenSpec changes use descriptive kebab-case.
 - Full setup already done (`openspec init`; `openspec/project.md` written).
 - Flow per change: `openspec new change` → create artifacts (proposal, specs,
   design, tasks) → `/opsx:apply` to implement → `openspec archive`.

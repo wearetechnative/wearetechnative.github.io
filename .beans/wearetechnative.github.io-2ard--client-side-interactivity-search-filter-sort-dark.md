@@ -5,7 +5,7 @@ status: todo
 type: epic
 priority: normal
 created_at: 2026-07-06T10:29:17Z
-updated_at: 2026-07-06T10:29:27Z
+updated_at: 2026-07-06T10:37:00Z
 parent: wearetechnative.github.io-lria
 blocked_by:
     - wearetechnative.github.io-t24g
@@ -19,4 +19,4 @@ Vanilla JS only (no framework) for instant client-side filtering and theming. Ze
 - Sticky filter bar.
 - Progressive enhancement preserved (JS off = full grid).
 
-OpenSpec change: 05-client-interactivity
+OpenSpec change: client-interactivity

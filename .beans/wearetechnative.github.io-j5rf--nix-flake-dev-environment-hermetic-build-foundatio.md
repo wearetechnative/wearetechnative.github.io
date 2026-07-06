@@ -5,7 +5,7 @@ status: completed
 type: epic
 priority: high
 created_at: 2026-07-06T10:28:42Z
-updated_at: 2026-07-06T10:35:32Z
+updated_at: 2026-07-06T10:37:00Z
 parent: wearetechnative.github.io-lria
 ---
 
@@ -18,7 +18,7 @@ Establish the hermetic Nix-flake foundation everything else builds on. Plain nix
 - .envrc (use flake) for direnv.
 - justfile with thin wrappers over `nix develop -c ...` (dev/build/fetch/verify).
 
-OpenSpec change: 01-nix-flake-devenv
+OpenSpec change: nix-flake-devenv (archived 2026-07-06)
 
 ## Summary of Changes
 

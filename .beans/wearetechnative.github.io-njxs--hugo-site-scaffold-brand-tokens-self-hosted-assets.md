@@ -5,7 +5,7 @@ status: todo
 type: epic
 priority: high
 created_at: 2026-07-06T10:29:17Z
-updated_at: 2026-07-06T10:29:27Z
+updated_at: 2026-07-06T10:37:00Z
 parent: wearetechnative.github.io-lria
 blocked_by:
     - wearetechnative.github.io-j5rf
@@ -22,4 +22,4 @@ Stand up the Hugo (extended) project skeleton: config, params, brand tokens, sel
 - assets/img: TechNative colour SVG (header), footer PNG (light-on-dark), favicon derived from SVG mark.
 - LICENSE (Apache-2.0) + NOTICE.
 
-OpenSpec change: 03-hugo-scaffold-brand
+OpenSpec change: hugo-scaffold-brand

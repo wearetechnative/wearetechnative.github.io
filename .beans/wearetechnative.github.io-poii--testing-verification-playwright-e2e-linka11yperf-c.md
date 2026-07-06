@@ -5,7 +5,7 @@ status: todo
 type: epic
 priority: high
 created_at: 2026-07-06T10:29:17Z
-updated_at: 2026-07-06T10:29:27Z
+updated_at: 2026-07-06T10:37:00Z
 parent: wearetechnative.github.io-lria
 blocked_by:
     - wearetechnative.github.io-2ard
@@ -20,4 +20,4 @@ Prove the PoC works. Thorough e2e test cases wired into `just verify` and CI. Th
 - Lighthouse budget documented: Performance ≥90, Accessibility ≥95, with command in README.
 - `just verify` runs flake check + lychee + Playwright against locally-served public/.
 
-OpenSpec change: 06-testing-verification
+OpenSpec change: testing-verification
