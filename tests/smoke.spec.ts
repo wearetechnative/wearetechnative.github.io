@@ -134,6 +134,43 @@ test.describe("landing page", () => {
   });
 });
 
+test.describe("embed feed (technative-oss/v1)", () => {
+  test("/oss.json is served, parses, and conforms to the v1 contract", async ({ request }) => {
+    const res = await request.get("/oss.json");
+    expect(res.ok()).toBe(true);
+
+    const feed = JSON.parse(await res.text());
+    expect(feed.schema).toBe("technative-oss/v1");
+    expect(typeof feed.generated_at).toBe("string");
+    expect(feed.org).toBe("wearetechnative");
+    expect(typeof feed.source).toBe("string");
+    expect(Array.isArray(feed.categories)).toBe(true);
+
+    // no empty categories in the feed
+    for (const c of feed.categories) {
+      expect(c.projects.length).toBeGreaterThan(0);
+      expect(c.count).toBe(c.projects.length);
+    }
+
+    // totals are derived from exactly the emitted projects
+    const all = feed.categories.flatMap((c: any) => c.projects);
+    const sum = (f: string) => all.reduce((n: number, p: any) => n + p[f], 0);
+    expect(feed.totals.projects).toBe(all.length);
+    expect(feed.totals.stars).toBe(sum("stargazers_count"));
+    expect(feed.totals.forks).toBe(sum("forks_count"));
+
+    // project field shapes
+    for (const p of all) {
+      expect(typeof p.name).toBe("string");
+      expect(typeof p.html_url).toBe("string");
+      expect(typeof p.stargazers_count).toBe("number");
+      expect(typeof p.forks_count).toBe("number");
+      expect(Array.isArray(p.topics)).toBe(true);
+      expect(typeof p.featured).toBe("boolean");
+    }
+  });
+});
+
 test.describe("progressive enhancement", () => {
   test.use({ javaScriptEnabled: false });
 

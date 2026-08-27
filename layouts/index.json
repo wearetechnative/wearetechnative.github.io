@@ -1,0 +1,43 @@
+{{- /*
+  JSON embed feed — the `technative-oss/v1` contract published at /oss.json.
+
+  A second rendering of the SAME merge output the HTML site uses
+  (partial "data/projects.html"): identical inclusion, categorisation, and sort.
+  Empty categories are dropped to match the site; totals are summed over exactly
+  the projects emitted here so they can never drift from the payload.
+
+  Contract: this path and the v1 field shapes are frozen once technative.eu
+  consumes them. Breaking changes ship as a new version, never in-place edits.
+  See openspec/changes/oss-json-embed-feed/.
+*/ -}}
+{{- $cats := partial "data/projects.html" . -}}
+{{- $categories := slice -}}
+{{- $projectsTotal := 0 -}}
+{{- $starsTotal := 0 -}}
+{{- $forksTotal := 0 -}}
+{{- range $cats -}}
+  {{- $count := len .projects -}}
+  {{- if gt $count 0 -}}
+    {{- range .projects -}}
+      {{- $starsTotal = add $starsTotal .stargazers_count -}}
+      {{- $forksTotal = add $forksTotal .forks_count -}}
+    {{- end -}}
+    {{- $projectsTotal = add $projectsTotal $count -}}
+    {{- $categories = $categories | append (dict
+        "key" .key
+        "title" .title
+        "count" $count
+        "projects" .projects) -}}
+  {{- end -}}
+{{- end -}}
+{{- $feed := dict
+    "schema" "technative-oss/v1"
+    "generated_at" (now.UTC.Format "2006-01-02T15:04:05Z07:00")
+    "source" site.BaseURL
+    "org" "wearetechnative"
+    "totals" (dict
+      "projects" $projectsTotal
+      "stars" $starsTotal
+      "forks" $forksTotal)
+    "categories" $categories -}}
+{{- $feed | jsonify (dict "indent" "  ") -}}

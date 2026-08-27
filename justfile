@@ -30,10 +30,15 @@ test:
 linkcheck:
     nix develop -c lychee --no-progress --root-dir "{{justfile_directory()}}/public" public
 
-# Full verification: flake check + link-check + e2e smoke tests.
+# Validate the JSON embed feed against the technative-oss/v1 contract.
+feedcheck:
+    nix develop -c scripts/check-feed.sh public/oss.json
+
+# Full verification: flake check + feed check + link-check + e2e smoke tests.
 # Builds first so public/ exists for the checks.
 verify: build test-install
     nix develop -c nix flake check
+    just feedcheck
     just linkcheck
     just test
 

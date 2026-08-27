@@ -6,6 +6,20 @@ enableRobotsTXT = true
 # Single-page site: no taxonomies, no per-page URLs.
 disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
 
+# The home page renders as HTML plus a JSON embed feed. The JSON output format
+# is the built-in one with its filename pinned to `oss.json`, so the feed is
+# published at the stable path https://wearetechnative.github.io/oss.json for
+# technative.eu to consume at build time. See openspec change `oss-json-embed-feed`.
+[outputs]
+  home = ["HTML", "JSON"]
+
+[outputFormats]
+  [outputFormats.JSON]
+    mediaType = "application/json"
+    baseName = "oss"
+    isPlainText = true      # emit raw JSON, no HTML entity escaping
+    notAlternative = true   # keep it out of alternate-link rendering
+
 [params]
   description = "Open-source tools and modules from TechNative — cloud engineering, Terraform, NixOS, and the awesome lists."
 
